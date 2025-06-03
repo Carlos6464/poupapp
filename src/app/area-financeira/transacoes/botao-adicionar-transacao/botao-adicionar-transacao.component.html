@@ -4,5 +4,51 @@
 </app-botao>
 
 <app-modal [(aberto)]="modalAberto">
-      oii
+  <ng-container modal-cabecalho class="modal-cabecalho">
+    <img src="icones/moeda.svg" alt="">
+    <h2 class="text-xl">Adicionar transação</h2>
+  </ng-container>
+
+  <form class="form text-md" (ngSubmit)="aoSubmeter()" ngNativeValidate>
+    <label class="label-grupo">
+      Nome da transação
+      <input [(ngModel)]="novaTransacaoForm.nome"  class="input" type="text" name="nome-transacao">
+    </label>
+
+    <fieldset class="grupo-tipo-transacao" required>
+      <legend class="legend">Tipo da transação</legend>
+
+      @for (transacao of tipoTransacao | keyvalue; track transacao.key) {
+            <label class="label-grupo-radio">   
+              <input type="radio" [(ngModel)]="novaTransacaoForm.tipo" [value]="transacao.value"  name="tipo-transacao" required>
+              {{transacao.value}}
+            </label>
+      }
+    </fieldset>
+
+    <label class="label-grupo">
+      Valor
+      <input class="input" [(ngModel)]="novaTransacaoForm.valor"  type="number" name="valor-transacao" min="0.01" step="0.01" placeholder="R$ 500,00" required>
+    </label>
+
+    <label class="label-grupo">
+      Data da transação
+      <input class="input" [(ngModel)]="novaTransacaoForm.data"  type="date" name="data-transacao" required>
+    </label>
+
+    <label class="label-grupo">
+      Conta Bancária
+
+      <select name="conta-transacao" [(ngModel)]="novaTransacaoForm.conta" class="input select-conta-transacao" required>
+        <option value="" selected disabled>Selecione a conta</option>
+
+        <option value="Anybank">Anybank</option>
+        <option value="Bytebank">Bytebank</option>
+      </select>
+    </label>
+
+    <app-botao class="botao-adicionar-transacao">
+      Adicionar
+    </app-botao>
+  </form>
 </app-modal>
